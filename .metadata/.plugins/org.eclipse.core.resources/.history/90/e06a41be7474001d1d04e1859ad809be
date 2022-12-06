@@ -1,0 +1,8 @@
+package com.hanul.web01;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class TestController {
+	
+}

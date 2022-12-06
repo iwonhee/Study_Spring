@@ -1,0 +1,11 @@
+
+1. Controller 생성 -> 클래스로 생성
+2. @Controller 지정
+3. 요청에 대한 처리 : 
+	메소드 선언 -> 메소드에 @RequestMapping 선언(주소창에 들어올 요청)
+				-> 메소드 내부에서 비즈니스 로직 처리
+				-> 화면응답
+					: return "화면명" -> WEB-INF/view/화면명.jsp 
+
+
+
