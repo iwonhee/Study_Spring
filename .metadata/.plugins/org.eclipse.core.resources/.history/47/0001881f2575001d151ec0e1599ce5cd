@@ -22,7 +22,4 @@
 	정보 담기 : addObject()
 	응답화면명 지정 : setViewName("");
 	return : 생성한 ModelAndView 객체 
-	
-파라미터 접근 방법
-1. HttpServletRequest 객체
 

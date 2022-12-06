@@ -11,12 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class TestController {
 	
-	@RequestMapping("/joinRequest")
-	public void join() {
-		// 파라미터 정보 담기
-		
-	}
-	
 	@RequestMapping("/member")
 	public String member() {
 		return "member/join";
