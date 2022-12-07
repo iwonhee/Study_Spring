@@ -1,0 +1,77 @@
+[프로젝트 시작]
+
+프로젝트 생성
+
+프로젝트 우클릭 - build path - 좌측 Project facets 에서 버전 맞추기
+
+pom.xml 에서 방금 맞춘 자바 버전 변경 저장 (<propertis<java-version>
+라이브러리 dependency 복붙 (maven) - 저장시 다운로드 됨
+	ojdbc,
+	DBCP,
+	Spring JDBC
+	Mybatis
+	Spring Mybatis
+
+src/main/resources 에 db 패키지 만들기
+그 안에 oracle 연결설정할 [일반 파일] db.properties 생성
+	oracleDriver = oracle.jdbc.driver.OracleDriver
+	url202 = jdbc:oracle:thin:@localhost:1522:xe
+	hanul.username = hanul
+	hanul.password = 0000
+	hr.username = hr
+	hr.password = 0000
+
+db패키지에 spring bean 파일 생성 (.xml)
+화면 하단 [Namespace] 란에서 context 체크
+방금 생성한 [db.properties]을 찾기 위해
+	<context:property-placeholder location="classpath:db/db.properties"/> 
+그 [db.properties]의 속성값 불러오기
+	<bean class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${oracleDriver}"/>
+		<property name="url" value="${url202}"/>
+		<property name="username" value="${hanul.username}"/>
+		<property name="password" value="${hanul.password}"/>
+	</bean>
+	
+	<bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dbcp"/>
+		<property name="mapperLocations" value="classpath:sqlmap/*-mapper.xml"/>
+	</bean>
+	
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="factory"/>
+	</bean>
+
+src/main/webapp/WEB-INF/ web.xml 에서 인코딩 필터 등록
+	<!-- 인코딩 필터 등록 -->
+	<filter>
+		<filter-name>eFilter</filter-name>	
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>eFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+home.jsp 한글 입력시 페이지 지시어 필요
+	<%@ page language="java" contentType="text/html; utf-8" pageEncoding="utf-8" %>
+
+
+css 매핑 -> WEB-INF/spring/appServlet/servlet-context.xml
+	<resources location="/resources/css/" mapping="/css/**" />
+	추가
+	<resources location="/resources/js/" mapping="/js/**" />
+	<resources location="/resources/images/" mapping="/img/**" />
+
+
+
+
+
