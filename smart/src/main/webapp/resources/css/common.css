@@ -1,4 +1,8 @@
 @charset "UTF-8";
+/* 
+dodgerblue : #1e90ff 
+blue 강조색 : #006ad5
+*/
 
 body{
 	margin:0 auto;
@@ -16,10 +20,55 @@ table tr{ height:46px }
 table.tb-list tr{ height:38px; }
 table th, table td{ border:1px solid #b0b0b0}
 table th{ background-color:#f6f6f6; }
+input[type=text]{
+	height:30px;
+	padding:2px 10px;
+	width:210px;
+	font-size:16px;
+}
+input[type=radio]{
+	width:18px;
+	font-size:16px;
+}
+input:focus{outline:none; border:2px solid #006ad5;}
 select{
 	height:32px;
 	cursor:pointer;
 	padding-left:10px;
+}
+h3{margin-top: 30px; margin-bottom:20px; font-size:26px;}
+
+.btnSet{
+	margin:20px auto;	
+	display:flex;
+	justify-content:center;
+	column-gap:10px;
+}
+a.btn-fill, a.btn-empty{
+	display:block;
+	height:24px;
+	padding:5px 25px;
+	border:1px solid dodgerblue;
+	border-radius: 3px;
+	background-color:dodgerblue;
+	color:#fff;
+	transition:all .2s;
+	cursor:pointer;
+}
+a.btn-empty{
+	background-color:#fff;
+	color:dodgerblue;
+}
+a.btn-empty:hover{background-color:#006ad5; color:#fff;border-color:#006ad5}
+a.btn-fill:hover{background-color:#006ad5; border-color:#006ad5}
+.click a{
+	padding: 7px 10px;
+	display:block;
+	transition:all .2s;
+}
+.click a:hover{
+	cursor:pointer;
+	background-color:#84bbff;
 }
 
 .menu{
@@ -31,13 +80,13 @@ select{
 .menu a{
 	display:block;
 	padding:10px 25px;
-	background-color:mediumblue;
+	background-color:dodgerblue;
 	border-radius:25px;
 	color:#fff;
 	transition:all .15s;
 }
 .menu a:hover, a.active{
-	background-color:dodgerblue;
+	background-color:#006ad5;
 	font-weight: bold;
 }
 .box{
@@ -61,6 +110,10 @@ select{
 	left:50%; top:50%;
 	transform:translate(-50%, -50%);
 }
+.flex-end{
+	display:flex;
+	justify-content:flex-end;
+}
 
 .w-pct80 { width: 80% }
 .w-pct60 { width: 60% }
@@ -83,4 +136,3 @@ select{
 .w-840 { width: 840px }
 .w-900 { width: 900px }
 .w-1000 { width: 1000px }
-

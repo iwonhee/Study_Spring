@@ -12,31 +12,27 @@ public class CustomerDAO implements CustomerService {
 	
 	@Override
 	public void customer_insert(CustomerVO vo) {
-		
+		sql.insert("customer.insert", vo);
 	}
 
 	@Override
 	public List<CustomerVO> customer_list() {
-		// TODO Auto-generated method stub
-		return null;
+		return sql.selectList("customer.list");
 	}
 
 	@Override
 	public CustomerVO customer_info(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return sql.selectOne("customer.info", id);
 	}
 
 	@Override
 	public void customer_update(CustomerVO vo) {
-		// TODO Auto-generated method stub
-
+		sql.update("customer.update", vo);
 	}
 
 	@Override
 	public void customer_delete(int id) {
-		// TODO Auto-generated method stub
-
+		sql.delete("customer.delete", id);
 	}
 
 }

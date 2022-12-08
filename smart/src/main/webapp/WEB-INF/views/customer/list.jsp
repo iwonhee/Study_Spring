@@ -10,6 +10,11 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 
 <h3>고객목록</h3>
+
+<div class='btnSet flex-end w-600'>
+	<a class='btn-fill' href='new.cu'>신규등록</a>
+</div>
+
 <table class='tb-list w-600'>
 <colgroup>
 	<col width='160px'>
@@ -20,11 +25,13 @@
 	<th>전화번호</th>
 	<th>이메일</th>
 </tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
+<c:forEach items="${list}" var="vo">
+	<tr>
+		<td class='click'><a href='info.cu?id=${vo.id}'>${vo.name}</a></td>
+		<td>${vo.phone}</td>
+		<td>${vo.email}</td>
+	</tr>
+</c:forEach>
 </table>
 
 <br><br>
