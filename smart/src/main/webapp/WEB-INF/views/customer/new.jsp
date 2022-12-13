@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <h3>신규고객등록</h3>
 
 
@@ -41,6 +40,5 @@
 	<a class='btn-empty' href='list.cu'>취소</a>
 </div>
 
-<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 </body>
 </html>

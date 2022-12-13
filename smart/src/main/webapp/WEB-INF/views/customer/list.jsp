@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/header.jsp"/>
 
 <h3>고객목록</h3>
 
@@ -35,6 +34,5 @@
 </table>
 
 <br><br>
-<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 </body>
 </html>

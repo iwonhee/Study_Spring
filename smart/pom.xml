@@ -15,6 +15,21 @@
 	</properties>
 	<dependencies>
 
+		<!-- 쿼리로그 출력 -->
+		<dependency>
+		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		    <version>1.16</version>
+		</dependency>
+
+		<!-- Tiles lib : 화면템플릿 -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-jsp</artifactId>
+		    <version>3.0.8</version>
+		</dependency>
+				
+
 		<!-- lombok -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>

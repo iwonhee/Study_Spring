@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <h3>정보수정</h3>
 
 <form method='post' action='update.cu' autocomplete="off">
@@ -43,6 +42,5 @@
 </div>
 
 
-<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 </body>
 </html>

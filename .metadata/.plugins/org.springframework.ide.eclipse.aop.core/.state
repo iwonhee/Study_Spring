@@ -3,4 +3,5 @@
 <aop-project name="Spring01"/>
 <aop-project name="Spring02"/>
 <aop-project name="smart"/>
+<aop-project name="middle"/>
 </aop-reference-model>
