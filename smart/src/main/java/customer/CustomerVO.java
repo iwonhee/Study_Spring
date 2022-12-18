@@ -1,5 +1,9 @@
 package customer;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class CustomerVO {
 	private String name, email, gender, phone;
 	private int id;

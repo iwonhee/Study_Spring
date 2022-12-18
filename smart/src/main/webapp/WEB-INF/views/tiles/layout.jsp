@@ -15,8 +15,12 @@
 </c:choose>
 <title>스마트 ${title}</title>
 <link rel="icon" type="image/x-icon" href="img/hanul.ico">
-<link href='css/common.css?<%= new java.util.Date() %>' rel='stylesheet' type='text/css'>
 <script type='text/javascript' src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src='js/comm.js?<%= new java.util.Date() %>'></script>
+<link href='css/common.css?<%= new java.util.Date() %>' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" 
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"  />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
 </head>
 <body>
 <tiles:insertAttribute name="header"/>
@@ -24,5 +28,6 @@
 <tiles:insertAttribute name="content"/>
 </div>
 <tiles:insertAttribute name="footer"/>
+
 </body>
 </html>

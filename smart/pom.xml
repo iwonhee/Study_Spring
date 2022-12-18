@@ -15,6 +15,30 @@
 	</properties>
 	<dependencies>
 
+		<!-- JSON라이브러리 -->
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20220924</version>
+		</dependency>
+
+		<!-- 이메일전송용 라이브러리 -->								
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-email</artifactId>
+		    <version>1.5</version>
+		</dependency>
+
+		<!-- jackson databind : 타입변환 lib -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.14.0</version>
+		</dependency>
+		
+
 		<!-- 쿼리로그 출력 -->
 		<dependency>
 		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
@@ -30,7 +54,7 @@
 		</dependency>
 				
 
-		<!-- lombok -->
+		<!-- lombok : getter/setter -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
