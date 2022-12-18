@@ -21,4 +21,5 @@
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Qualifier"/>
     <fullyQualifiedTypeName name="common.CommonService"/>
     <fullyQualifiedTypeName name="org.apache.commons.mail.HtmlEmail"/>
+    <fullyQualifiedTypeName name="java.net.URL"/>
 </qualifiedTypeNameHistroy>

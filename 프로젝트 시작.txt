@@ -1,8 +1,8 @@
-[프로젝트 시작]
+[Spring 프로젝트 시작]
 
 프로젝트 생성
 
-프로젝트 우클릭 - build path - 좌측 Project facets 에서 버전 맞추기
+프로젝트 우클릭 - build path - 좌측 Project facets 에서 버전 맞추기 (java11, web 4.0)
 
 pom.xml 에서 방금 맞춘 자바 버전 변경 저장 (<propertis<java-version>
 라이브러리 dependency 복붙 (maven) - 저장시 다운로드 됨
@@ -73,5 +73,13 @@ css 매핑 -> WEB-INF/spring/appServlet/servlet-context.xml
 
 
 
+css, images, js 와 같이 resources 파일은 처음 한번 다운받고 끝
+-> 개발중에는 바로바로 변경점이 적용 안됨!
+-> 계속 내려받을 수 있도록 css 파일 link 에서 '' 안에 선언
+?<%= new java.util.Date() %>
 
-
+/spring/root-context.xml 
+	스캐닝 대상으로 등록하기
+	// 다른 패키지 생성해서 작업할때 등록해야함!
+	<context:component-scan base-package="customer, hr"/>	
+	<import resource="classpath:db/conn.xml" />
