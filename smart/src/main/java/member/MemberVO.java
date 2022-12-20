@@ -2,7 +2,7 @@ package member;
 
 public class MemberVO {
 	private String userid, userpw, name, gender, email, phone
-			, post, address, admin, social, profile_image, birth;
+			, post, address, admin, social, profile, birth;
 	private String salt;
 	
 	
@@ -94,12 +94,12 @@ public class MemberVO {
 		this.social = social;
 	}
 
-	public String getProfile_image() {
-		return profile_image;
+	public String getProfile() {
+		return profile;
 	}
 
-	public void setProfile_image(String profile_image) {
-		this.profile_image = profile_image;
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 	public String getBirth() {

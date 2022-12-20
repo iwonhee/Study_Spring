@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,10 @@
 <body>
 <h3>공지사항</h3>
 <div class='btnSet flex-end w-900'>
-	<a class='btn-fill' href='new.no'>공지글 등록</a>
+	<!-- 관리자만 글쓰기 가능 -->
+	<c:if test="${loginInfo.admin eq 'Y'}">	
+		<a class='btn-fill' href='new.no'>공지글 등록</a>
+	</c:if>
 </div>
 <table class='w-900 tb-list'>
 <colgroup>

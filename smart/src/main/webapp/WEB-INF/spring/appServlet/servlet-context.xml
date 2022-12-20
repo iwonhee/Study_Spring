@@ -17,6 +17,7 @@
 	<resources location="/resources/css/" mapping="/css/**" />
 	<resources location="/resources/js/" mapping="/js/**" />
 	<resources location="/resources/images/" mapping="/img/**" />
+	<resources location="/resources/upload/" mapping="/upload/**" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -34,6 +35,9 @@
 	
 	<context:component-scan base-package="ice.fire.smart" />
 	
-	
+	<!-- 파일업로드를 위한 객체 -->
+	<beans:bean id='multipartResolver' class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value='utf-8'/>
+	</beans:bean>
 	
 </beans:beans>

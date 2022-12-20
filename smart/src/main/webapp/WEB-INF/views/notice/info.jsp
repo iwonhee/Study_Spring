@@ -10,8 +10,10 @@
 <h3>공지글</h3>
 
 <div class='btnSet w-800 flex-end'>
-	<a href='modify.no?id=${info.id}' class='btn-fill'>수정</a>
-	<a class='btn-empty notice_delete'>삭제</a>
+	<c:if test="${loginInfo.userid eq vo.writer}">	
+		<a href='modify.no?id=${info.id}' class='btn-fill'>수정</a>
+		<a class='btn-empty notice_delete'>삭제</a>
+	</c:if>
 </div>
 <table class='w-800'>
 <colgroup>

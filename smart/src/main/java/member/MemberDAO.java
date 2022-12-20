@@ -10,13 +10,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MemberDAO implements MemberService {
-
+//org.springframework.web.multipart.commons.CommonsMultipartResolver
 	@Autowired @Qualifier("hanul") private SqlSession sql;
 	
 	@Override
 	public int member_join(MemberVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sql.insert("mb.join", vo);
 	}
 
 	@Override
@@ -26,14 +25,12 @@ public class MemberDAO implements MemberService {
 
 	@Override
 	public MemberVO member_myInfo(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+		return sql.selectOne("mb.");
 	}
 
 	@Override
 	public int member_idCheck(String userid) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sql.selectOne("mb.idCheck", userid);
 	}
 
 	@Override

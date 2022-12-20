@@ -1,0 +1,43 @@
+package com.and.middle;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+
+import member.MemberVO;
+
+@RestController
+public class AndMemberController {
+
+	@Autowired @Qualifier("hanul") SqlSession sql;
+	
+	@RequestMapping(value="/login.me", produces = "text/html;charset=utf-8")
+	public String login(MemberVO vo) {// 반드시 email, pw가 있어야함
+		MemberVO temp_vo = sql.selectOne("mb.login", vo);
+		
+		if(temp_vo != null) {
+			System.out.println("로그인 성공");
+		}else {			
+			System.out.println("로그인 실패");
+		}
+		
+		return new Gson().toJson(temp_vo);
+	}
+	
+	@RequestMapping(value="/social.me", produces = "text/html;charset=utf-8")
+	public String social_Login(String email) {
+		
+		if(email != null) {
+			System.out.println(email);
+		}else {	
+			System.out.println("이메일 null");
+		}
+		
+		return "return : " + email;
+	}
+	
+}

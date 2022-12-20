@@ -29,13 +29,13 @@ public class AndController {
 		return new Gson().toJson(list);
 	}
 	
-	@RequestMapping(value="/andVo", produces = "text/html;charset=utf-8")
+	@RequestMapping(value="/andVO", produces = "text/html;charset=utf-8")
 	public String andVo() {
+		System.out.println("ddd");
+//		List<CustomerVO> list = sql.selectList("and.list");
 		
-		List<CustomerVO> list = sql.selectList("and.list");
 		
-		
-		return new Gson().toJson(list.get(0));
+		return "lastTest";
 	}
 	
 }

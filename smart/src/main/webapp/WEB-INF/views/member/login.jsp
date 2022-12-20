@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.naver { background: url("img/naverlogin.png") center no-repeat;  background-size: cover; }
+.kakao { background: url("img/kakaologin.png") center no-repeat;  background-size: cover; }
+</style>
 </head>
 <body>
 
@@ -35,6 +39,9 @@
 	});
 	return ok;
 } */
+$('.social').click(function(){
+	location = $(this).attr('id') + 'Login';
+});
 
 $('.login').click(function(){
 	login();

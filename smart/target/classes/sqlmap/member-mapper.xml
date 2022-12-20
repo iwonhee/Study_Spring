@@ -23,7 +23,7 @@
 	<!-- 				, post, address, admin, social, profile, birth, salt; -->
 	insert into member 
 		(userid, userpw, name, gender, email, phone, post
-		, address, social, profile, birth, salt)
+		, address, social, profile_image, birth, salt)
 	values ( #{userid}, #{userpw, jdbcType=VARCHAR}, #{name}, #{gender}
 	, #{email, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR}
 	, #{post, jdbcType=VARCHAR}, #{address, jdbcType=VARCHAR}
@@ -37,7 +37,7 @@
 	update member 
 	set salt = #{salt, jdbcType=VARCHAR}, userpw = #{userpw, jdbcType=VARCHAR}
 		, name = #{name, jdbcType=VARCHAR}, email = #{email, jdbcType=VARCHAR}
-		, gender = #{gender}, profile = #{profile, jdbcType=VARCHAR}
+		, gender = #{gender}, profile_image = #{profile, jdbcType=VARCHAR}
 		, phone = #{phone, jdbcType=VARCHAR}, social = #{social, jdbcType=VARCHAR} 
 	where userid = #{userid}
 	</update>
@@ -56,7 +56,7 @@
 	
 	<!-- 로그인 조회 -->
 	<select id="login" resultType='member.MemberVO'>
-		select * from member 
+		select m.*, profile_image profile from member m 
 		where userid = #{id} and userpw = #{pw}
 	</select>
 	

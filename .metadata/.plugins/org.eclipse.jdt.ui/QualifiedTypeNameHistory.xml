@@ -22,4 +22,5 @@
     <fullyQualifiedTypeName name="common.CommonService"/>
     <fullyQualifiedTypeName name="org.apache.commons.mail.HtmlEmail"/>
     <fullyQualifiedTypeName name="java.net.URL"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>

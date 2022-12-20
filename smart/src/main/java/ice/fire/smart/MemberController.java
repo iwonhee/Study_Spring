@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import common.CommonService;
 import member.MemberService;
@@ -22,6 +23,48 @@ public class MemberController {
 	
 	@Autowired @Qualifier("member") private MemberService service;
 	@Autowired private CommonService common;
+	private String NaverClientId = "wZUymu57EVmvNaCsnStJ";
+	private String NaverClientSecret = "bP0jg4vg0O";
+	
+	//회원가입처리 요청
+	@ResponseBody @RequestMapping(value="/join", produces="text/html; charset=utf-8")
+	public String join(MemberVO vo, MultipartFile profile_image, HttpServletRequest request) {
+		//첨부된 프로필 파일이 있는 경우
+		if( ! profile_image.isEmpty() ) {
+			//서버의 물리적영역에 첨부파일 저장후, DB에 저장
+			vo.setProfile(common.fileUpload("profile", profile_image, request));
+		}
+		//입력한 비밀번호 암호화
+		String salt = common.generateSalt();
+		String userpw = common.getEncrypt(salt, vo.getUserpw());
+		vo.setSalt(salt);
+		vo.setUserpw(userpw);
+		StringBuffer msg = new StringBuffer("<script>");
+		if( service.member_join(vo)==1 ) {
+			msg.append("alert('어서와'); location='")
+				.append( request.getContextPath() )
+				.append("'; ");
+		}else {
+			msg.append("alert('회원가입 실패!'); history.go(-1); ");
+		}
+		msg.append("</script>");
+		return msg.toString();
+	}
+	
+	//아이디 중복확인 요청
+	@ResponseBody @RequestMapping("/idCheck")
+	public boolean idCheck(String id) {
+		//화면에서 입력한 id가 DB에 존재하는지 확인
+		// 0 : 해당id 없음, 1 : 해당id 있음
+		return service.member_idCheck(id)==0 ? false : true;
+	}
+	
+	//회원가입화면 요청
+	@RequestMapping("/member")
+	public String member(HttpSession session) {
+		session.setAttribute("category", "join");
+		return "member/join";
+	}
 	
 	//네이버로그인처리 요청
 		@RequestMapping("/naverLogin")
