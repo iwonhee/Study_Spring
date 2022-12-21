@@ -22,7 +22,7 @@ table tr{ height:46px }
 table th, table td{ border:1px solid #b0b0b0}
 /* table td{padding-left:10px;} */
 table th{ background-color:#f6f6f6; }
-textarea{resize:none;}
+textarea{resize:none;font-size:16px;}
 input[type=text]{
 	height:30px;
 	padding:2px 10px;
@@ -38,7 +38,7 @@ input[type=date]{
 	font-size:16px;
 	width:90%;
 }
-input:focus, select:focus{outline:none; border:2px solid #006ad5;}
+input:focus, select:focus, textarea:focus{outline:none; border:2px solid #006ad5;}
 select{
 	height:32px;
 	cursor:pointer;
@@ -54,6 +54,7 @@ h3{margin-top: 30px; margin-bottom:20px; font-size:26px;}
 .login_ul{
 	display:flex;
 	column-gap:10px;
+	align-items: center;
 }
 .login_ul span{font-weight: bold; display:block;}
 .btnSet{
@@ -65,7 +66,7 @@ h3{margin-top: 30px; margin-bottom:20px; font-size:26px;}
 a.btn-fill, a.btn-empty{
 	display:block;
 	height:24px;
-	padding:5px 25px;
+	padding:5px 15px;
 	border:1px solid dodgerblue;
 	border-radius: 3px;
 	background-color:dodgerblue;
@@ -87,7 +88,7 @@ a.btn-fill:hover{background-color:#006ad5; border-color:#006ad5}
 }
 .click a:hover{
 	cursor:pointer;
-	background-color:#84bbff;
+	background-color:#dfeeff;
 }
 
 .menu{
@@ -99,7 +100,7 @@ a.btn-fill:hover{background-color:#006ad5; border-color:#006ad5}
 }
 .menu a{
 	display:block;
-	padding:10px 25px;
+	padding:5px 10px;
 /* 	background-color:dodgerblue; */
 	transition:all .15s;
 }
@@ -175,6 +176,10 @@ a.btn-fill:hover{background-color:#006ad5; border-color:#006ad5}
 	font-size:16px;
 	line-height:16px;
 }
+.text-left{
+	text-align:left;
+	text-indent:5%;
+}
 .pointer{cursor:pointer;}
 
 #preview img{max-height:80px;}
@@ -187,8 +192,8 @@ a.btn-fill:hover{background-color:#006ad5; border-color:#006ad5}
 .font-b {font-size:20px; color:dodgerblue}
 
 .full { width: calc(100% - 30px) }
-.profile { width:50px; height: 50px; border-radius: 50%; }
-.font-profile { font-size: 50px; }
+.profile { width:40px; height: 40px; border-radius: 50%; }
+.font-profile { font-size: 40px; }
 
 div.valid { color: #008000; font-size: 14px; font-weight: bold; }
 div.invalid { color: #ff0000; font-size: 14px; font-weight: bold; }

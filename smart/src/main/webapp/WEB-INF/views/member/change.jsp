@@ -8,7 +8,8 @@
 </head>
 <body>
 <div class='box'>
-<form method='post' action='reset'>
+<!-- action='reset' -->
+<form method='post' action='changePassword'>
 <ul>
 	<li><input type='password' name='userpw' class='chk' placeholder="새비밀번호">
 		<div class='valid text-left'>비밀번호를 입력하세요</div>

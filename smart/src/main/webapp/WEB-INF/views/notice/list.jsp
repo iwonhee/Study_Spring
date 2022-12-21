@@ -22,6 +22,7 @@
 	<col width='160px'>
 	<col width='160px'>
 	<col width='80px'>
+	<col width='80px'>
 </colgroup>
 <tr>
 	<th>글번호</th>
@@ -29,14 +30,16 @@
 	<th>작성자</th>
 	<th>작성일</th>
 	<th>조회수</th>
+	<th>첨부파일</th>
 </tr>
 <c:forEach items='${list}' var='vo'>
 	<tr>
-		<td>${vo.id}</td>
+		<td>${vo.no}</td>
 		<td class='click'><a href='info.no?id=${vo.id}'>[공지] ${vo.title}</a></td>
 		<td>${vo.writer}</td>
 		<td>${vo.write_date}</td>
 		<td>${vo.readcnt}</td>
+		<td><c:if test='${!empty vo.filename}'><i class="font-b fa-solid fa-paperclip"></i></c:if></td>
 	</tr>
 </c:forEach>
 </table>

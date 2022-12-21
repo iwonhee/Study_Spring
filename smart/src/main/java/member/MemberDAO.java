@@ -61,7 +61,7 @@ public class MemberDAO implements MemberService {
 
 	@Override
 	public int member_password_update(MemberVO vo) {
-		return sql.update("member.password_update", vo);
+		return sql.update("mb.password_update", vo);
 	}
 
 }

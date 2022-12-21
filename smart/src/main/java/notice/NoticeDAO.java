@@ -14,7 +14,7 @@ public class NoticeDAO implements NoticeService {
 	
 	@Override
 	public List<NoticeVO> list() {
-		return sql.selectList("no.list");
+		return sql.selectList("no.list_no");
 	}
 
 	@Override

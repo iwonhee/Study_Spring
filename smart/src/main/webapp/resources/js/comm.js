@@ -20,11 +20,15 @@ $(function(){
 	$('#attach-file').change(function(){
 		console.log(this.files[0])//선택한 파일정보
 		var attached = this.files[0];
+		
 		//실제 파일 선택한 경우
 		if( attached ){
+			$('#file-name').text(attached.name); //파일명 보이기
 			$('#delete-file').css('display', 'inline'); // 지우기 버튼 보이기
+			
 			//미리보기 태그가 있는 경우 선택한 이미지 보이기
 			if( $("#preview").length > 0 ){
+				
 				// 선택한 파일이 이미지인 경우
 				if( isImage(attached.name) ){					
 					$("#preview").html('<img class="profile">');
@@ -34,7 +38,12 @@ $(function(){
 					}
 					reader.readAsDataURL( attached );
 				}else{
-					initAttach();	// 이미지가 아닌 파일 선택한 경우
+					//프로필 이미지처럼 이미지만 첨부해야 하는 경우는
+					//이미지가 아닌 파일을 선택했다면 삭제버튼도 안보이게
+					if( $(this).attr('accept')=='image/*'){
+						$('#delete-file').css('display','none');
+					}
+					$('#preview').empty();
 				}
 			}
 			
@@ -49,9 +58,11 @@ $(function(){
 });
 
 function initAttach(){
+	$('#file-name').text('');
+	$('#attached-file').val('');
 	$('#preview').empty();
 	$('#delete-file').css('display', 'none');
-	$('#preview img').remove();
+//	$('#preview img').remove();
 }
 
 function isImage( filename ){
@@ -67,7 +78,8 @@ function emptyCheck(){
 	var ok = true;
 	$('.ck').each(function(){	/* '.ck'가 여러개일때, 모두 같은 처리 */
 		if( $.trim($(this).val()) ==''){	/* trim은 공백처리 위함 */
-			var title = $(this).attr('placeholder'); /* placeholder 값 가져오기 */
+			var title = $(this).attr('placeholder') 
+				? $(this).attr('placeholder') : $(this).attr('title'); /* placeholder 값 가져오기 */
 			alert(title + '를 입력하세요');
 			$(this).focus();	/* 입력해야 할 칸에 입력대기 */
 			ok = false;

@@ -16,7 +16,7 @@ public class AndMemberController {
 	@Autowired @Qualifier("hanul") SqlSession sql;
 	
 	@RequestMapping(value="/login.me", produces = "text/html;charset=utf-8")
-	public String login(MemberVO vo) {// 반드시 email, pw가 있어야함
+	public String login(MemberVO vo) {	// 반드시 email, pw가 있어야함
 		MemberVO temp_vo = sql.selectOne("mb.login", vo);
 		
 		if(temp_vo != null) {
@@ -37,7 +37,7 @@ public class AndMemberController {
 			System.out.println("이메일 null");
 		}
 		
-		return "return : " + email;
+		return "spring : " + email;
 	}
 	
 }
