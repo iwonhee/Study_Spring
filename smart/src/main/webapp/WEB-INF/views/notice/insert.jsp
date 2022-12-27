@@ -27,7 +27,7 @@
 </tr>
 <tr>
 	<th>파일첨부</th>
-	<td class='text-left'>
+	<td class='text-left align-center'>
 	<label>
 		<input type='file' name='file' id='attach-file' >
 		<a class='pointer'><i class="font-b fa-solid fa-file-arrow-up"></i></a>

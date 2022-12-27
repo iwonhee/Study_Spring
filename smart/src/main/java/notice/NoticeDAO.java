@@ -42,4 +42,17 @@ public class NoticeDAO implements NoticeService {
 		sql.update("no.readcnt", id);
 	}
 
+	@Override
+	public NoticePageVO list(NoticePageVO page) {
+		page.setTotalList( sql.selectOne("no.count", page) );//총 글의 수 조회
+		//현재 페이지에 출력할 10건의 글목록 조회
+		page.setList( sql.selectList("no.list_no", page) );
+		return page;
+	}
+
+	@Override
+	public int reply_insert(NoticeVO vo) {
+		return sql.insert("no.reply_insert", vo);
+	}
+
 }

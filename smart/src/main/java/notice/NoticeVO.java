@@ -3,12 +3,30 @@ package notice;
 import java.sql.Date;
 
 public class NoticeVO {
-	private int id, readcnt, no;
+	private int id, readcnt, no, root, step, indent;
 	private String title, content, writer, filename, filepath;
 	private Date write_date;
 	
 	
 	
+	public int getRoot() {
+		return root;
+	}
+	public void setRoot(int root) {
+		this.root = root;
+	}
+	public int getStep() {
+		return step;
+	}
+	public void setStep(int step) {
+		this.step = step;
+	}
+	public int getIndent() {
+		return indent;
+	}
+	public void setIndent(int indent) {
+		this.indent = indent;
+	}
 	public String getFilename() {
 		return filename;
 	}

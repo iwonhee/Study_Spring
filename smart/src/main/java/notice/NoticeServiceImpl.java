@@ -40,4 +40,14 @@ public class NoticeServiceImpl implements NoticeService {
 		dao.readcnt(id);
 	}
 
+	@Override
+	public NoticePageVO list(NoticePageVO page) {
+		return dao.list(page);
+	}
+
+	@Override
+	public int reply_insert(NoticeVO vo) {
+		return dao.reply_insert(vo);
+	}
+
 }

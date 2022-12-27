@@ -7,7 +7,7 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-<!-- 	<context:component-scan base-package="customer, member"/> -->
+	<context:component-scan base-package="common"/>
 	
 	<!-- 서버시작시 바로 읽게 -->
 	<import resource="classpath:db/conn.xml" />	

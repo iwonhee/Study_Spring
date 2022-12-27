@@ -12,49 +12,59 @@
 <%-- ${loginInfo.userid}] [${info.writer} --%>
 <div class='btnSet w-800 flex-end'>
 	<c:if test="${loginInfo.userid eq info.writer}">	
-		<a href='modify.no?id=${info.id}' class='btn-fill'>수정</a>
+		<a href='modify.no?id=${info.id}&${params}' class='btn-fill'>수정</a>
 		<a class='btn-empty notice_delete'>삭제</a>
 	</c:if>
 </div>
 <table class='w-800'>
 <colgroup>
-	<col width='140px'>
+	<col width='100px'>
 	<col>
-	
+	<col width='100px'>
+	<col width='140px'>
+	<col width='100px'>
+	<col>
 </colgroup>
 <tr>
 	<th>제목</th>
-	<th colspan='5'>${info.title}</th>
+	<td colspan='5' class="text-left">${info.title}</td>
 </tr>
 
 <tr>
-	<td>${info.id}</td>
-	<td>${info.title}</td>
-	<td>${info.writer}</td>
+	<th>작성자</th>
+	<td class="text-left">${info.writer}</td>
+	<th>작성일</th>
 	<td>${info.write_date}</td>
+	<th>조회수</th>
 	<td>${info.readcnt}</td>
 </tr>
-</table>
-<table class='w-800'>
 <tr>
-	<th class='w-80'>첨부파일</th>
-	<td>${info.filename}
+	<th>첨부파일</th>
+	<td colspan='5' class='text-left'>${info.filename}
 		<c:if test='${!empty info.filename}'>
 		<a class='pointer download'><i class="font-b fa-solid fa-file-arrow-down"></i></a>
 		</c:if>
 	</td>
 </tr>
 </table>
+
 <div class='content w-800'>${fn: replace(info.content, crlf, '<br>')}</div>
 
+<c:set var='params' value='curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}'/>
+
 <div class='btnSet'>
-	<a href='list.no' class='btn-fill'>돌아가기</a>
+	<!-- 로그인한 경우 답글달기 보이기 -->
+	<c:if test="${!empty loginInfo}">
+		<a class='btn-fill' href='reply.no?id=${info.id}&${params}'>답글쓰기</a>
+	</c:if>
+	<a href='list.no?${params}' class='btn-fill'>돌아가기</a>
 </div>
 
 <script>
 
 $('.download').on('click', function(){
-	$(this).attr('href', 'download.no?id=${info.id}');
+	$(this).attr('href', 'download.no?id=${info.id}&url=' 
+			+ $(location).attr('href')); //url주소 넘겨주기
 });
 
 $(document).on('click', '.notice_delete', function(){

@@ -5,6 +5,14 @@ public class CustomerVO {
 	private int id;
 	
 	
+	public CustomerVO(String name, String gender, String email, String phone, int id) {
+		super();
+		this.name = name;
+		this.gender = gender;
+		this.email = email;
+		this.phone = phone;
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}

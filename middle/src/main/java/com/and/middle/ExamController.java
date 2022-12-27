@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 
+import customer.CustomerVO;
 import test.TestVO;
 
 @RestController
 public class ExamController {
+	
+	
 	
 	@RequestMapping(value="/test1", produces="text/html; charset=utf-8")
 	public String test1() {

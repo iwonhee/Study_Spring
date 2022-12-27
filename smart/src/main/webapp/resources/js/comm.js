@@ -31,7 +31,7 @@ $(function(){
 				
 				// 선택한 파일이 이미지인 경우
 				if( isImage(attached.name) ){					
-					$("#preview").html('<img class="profile">');
+					$("#preview").html('<img class="profile-s">');
 					var reader = new FileReader();
 					reader.onload = function(e){
 						$("#preview img").attr('src', e.target.result);

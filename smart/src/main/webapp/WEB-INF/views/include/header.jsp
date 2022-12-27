@@ -18,7 +18,7 @@
 			<li><a href="list.cu" ${category eq 'cu' ? 'class="active"' : ''}>고객관리</a></li>
 			<li><a href="list.hr" ${category eq 'hr' ? 'class="active"' : ''}>사원관리</a></li>
 			<li><a href="list.no" ${category eq 'no' ? 'class="active"' : ''}>공지사항</a></li>
-			<li><a href="">방명록</a></li>
+			<li><a href="list.bo" ${category eq 'bo' ? 'clase="active"' : ''}>방명록</a></li>
 			<li><a href="">공공데이터</a></li>
 			<li><a href="">시각화</a></li>
 		</ul>
@@ -33,7 +33,8 @@
 			<!-- 로그인한 경우 -->
 			<c:if test="${not empty loginInfo}">
 				<c:if test='${empty loginInfo.profile}'>
-					<li><i class="font-profile fa-regular fa-circle-user"></i></li>					
+<!-- 					<li><i class="font-profile fa-regular fa-circle-user"></i></li>					 -->
+					<li><img src="img/animal.png" class="border-1 profile"></li>					
 				</c:if>
 				<c:if test='${not empty loginInfo.profile}'>
 					<li><img class='profile' src='${loginInfo.profile}'></li>
