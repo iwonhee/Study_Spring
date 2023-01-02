@@ -28,6 +28,16 @@ import member.MemberVO;
 @Service
 public class CommonService {
 	
+	//물리적인 첨부파일 삭제
+	public void fileDelete(String filepath, HttpServletRequest req) {
+		if( filepath != null ) {
+			filepath = filepath.replace(appURL(req)
+						, "d://app"+req.getContextPath());
+			File file = new File(filepath);
+			if( file.exists() ) file.delete();
+		}
+	}
+	
 	//첨부파일 다운로드
 	public boolean fileDownload(String filename, String filepath
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {

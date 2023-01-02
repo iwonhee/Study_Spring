@@ -9,9 +9,9 @@
 <body>
 <h3>방명록 글쓰기</h3>
 
-<form method='post' action='insert.bo'>
+<form method='post' action='insert.bo' enctype='multipart/form-data'>
 
-<table class='w-900'>
+<table class='w-1000'>
 <tr>
 	<th class='w-140'>제목</th>
 	<td><input type='text' name='title' class='ck' title='제목'></td>
@@ -22,7 +22,17 @@
 </tr>
 <tr>
 	<th>첨부파일</th>
-	<td></td>
+	<td class='text-left' style='height:46px; border:none'>
+	<div class='atta align-center'>
+		<label>
+			<input type='file' name='file' class='attach-file' >
+			<a class='pointer'><i class="font-b fa-solid fa-file-arrow-up"></i></a>
+		</label>
+		<span class='file-name'></span>
+		<span class='preview'></span>
+		<a class='delete-file'><i class="font-r fa-regular fa-trash-can"></i></a>
+	</div>
+	</td>
 </tr>
 </table>
 <input type='hidden' name='writer' value='${loginInfo.userid}'>

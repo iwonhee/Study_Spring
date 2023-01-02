@@ -5,12 +5,18 @@ import java.util.List;
 
 public class BoardVO {
 
-	private int id, readcnt, no;
+	private int id, readcnt, no, fileCount;
 	private String title, content, writer, name;
 	private Date writedate;
 	private List<BoardFileVO> fileList;
 	
 	
+	public int getFileCount() {
+		return fileCount;
+	}
+	public void setFileCount(int fileCount) {
+		this.fileCount = fileCount;
+	}
 	public List<BoardFileVO> getFileList() {
 		return fileList;
 	}

@@ -3,7 +3,8 @@ package common;
 public class PageVO {
 	
 	//검색관련
-	private String search="all", keyword="";
+	private String search="all", keyword="", viewType="list";
+	
 	
 	
 	private int pageList = 10;
@@ -44,25 +45,29 @@ public class PageVO {
 	}
 	
 	
+	public String getViewType() {
+		return viewType;
+	}
+
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
+	}
+	
 	public String getSearch() {
 		return search;
 	}
-
 
 	public void setSearch(String search) {
 		this.search = search;
 	}
 
-
 	public String getKeyword() {
 		return keyword;
 	}
 
-
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-
 
 	public int getPageList() {
 		return pageList;

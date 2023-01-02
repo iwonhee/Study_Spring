@@ -1,7 +1,5 @@
 package ice.fire.smart;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import common.CommonService;
-import member.MemberServiceImpl;
 import notice.NoticePageVO;
 import notice.NoticeService;
 import notice.NoticeVO;
@@ -72,21 +69,11 @@ public class NoticeController {
 		service.delete(id);
 		
 		//첨부파일이 있었다면 물리적파일도 삭제
-		fileDelete(vo.getFilepath(), req);
+		common.fileDelete(vo.getFilepath(), req);
 		
 		return "redirect:list.no&curPage=" + page.getCurPage()
 		+ "&search=" + page.getSearch()
 		+ "&keyword=" + URLEncoder.encode(page.getKeyword(), "utf-8");
-	}
-	
-	//파일삭제 메소드
-	private void fileDelete(String filepath, HttpServletRequest req) {
-		if( filepath != null ) {
-			filepath = filepath.replace(common.appURL(req)
-						, "d://app"+req.getContextPath());
-			File file = new File(filepath);
-			if( file.exists() ) file.delete();
-		}
 	}
 	
 	//공지글 update 처리
@@ -100,12 +87,12 @@ public class NoticeController {
 			vo.setFilename( file.getOriginalFilename() );
 			vo.setFilepath(common.fileUpload("notice", file, req));
 			//첨부되어있던 파일이 있으면 파일도 삭제
-			fileDelete(before.getFilepath(), req);
+			common.fileDelete(before.getFilepath(), req);
 		}else {
 		//파일 첨부x
 			if( vo.getFilename().isEmpty() ) {
 				// 첨부파일 삭제 누름
-				fileDelete(before.getFilepath(), req);
+				common.fileDelete(before.getFilepath(), req);
 			}else {
 				// 기존 첨부파일 사용
 				vo.setFilename( before.getFilename() );
@@ -159,7 +146,6 @@ public class NoticeController {
 		return "notice/info";
 	}
 	
-	@Autowired private MemberServiceImpl member;
 	@Autowired private CommonService common;
 	
 	//공지글 목록화면 요청
