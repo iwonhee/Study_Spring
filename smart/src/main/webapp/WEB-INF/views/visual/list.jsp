@@ -53,8 +53,9 @@
 		<label><input type='radio' name='graph' value='donut'>도넛그래프</label>
 	</div>
 	<div class='tab'>
-		<label><input type='radio' name='graph' value='year' checked>년도별</label>
-		<label><input type='radio' name='graph' value='month'>월별</label>
+		<label><input type='checkbox' id='top3'>TOP3부서</label>
+		<label><input type='radio' name='unit' value='year' checked>년도별</label>
+		<label><input type='radio' name='unit' value='month'>월별</label>
 	</div>
 	<div id='graph'></div>
 	<ul id='legend'>
@@ -78,7 +79,6 @@ $(function(){
 	
 	$('[name=graph]').on('change', function(){
 		department();
-		init();
 	});
 	
 	
@@ -107,7 +107,7 @@ $(function(){
 
 	//부서원수 시각화
 	function department(){
-		
+		init();
 		$.ajax({
 			url: 'visual/department',
 			success: function( response ){
@@ -132,18 +132,83 @@ $(function(){
 			}
 		});
 	};
-
-	
 	
 	//채용인원수(연도별/월별) 시각화
 	function hirement(){
+		init();
+		
+		if( $('#top3').prop('checked') ) hirement_top3();
+		else hirement_all();
+	}
+	
+	function hirement_top3(){
+		var unit = $('[name=unit]:checked').val();
 		$.ajax({
+			url: 'visual/hirement/top3/' + unit,
+			success: function(response){
+				console.log(response);
+				var info = [];
+				if( unit == 'year' ){					
+					//연별
+					info.push( ['부서명', '2001','2002','2003','2004','2005','2006','2007','2008','2009','2010'] );
+					$(response).each(function(){
+						info.push( new Array( this.DEPARTMENT_NAME, this.Y2001,this.Y2002,this.Y2003,this.Y2004,this.Y2005,this.Y2006,this.Y2007,this.Y2008,this.Y2009,this.Y2010, ) );
+					});
+				}else{
+					//월별
+				}
+				
+				c3.generate({
+					bindto: '#graph',
+					data: {columns: info, x:'부서명'
+							, type: unit=='year'?'bar':'line', labels:true
+					},
+					axis: { x: 'category' }
+				});
+			}
+		});
+	}
+	
+	function hirement_all(){
 			
+		var unit = $('[name=unit]:checked').val();
+		$.ajax({
+			url: 'visual/hirement/' + unit,
+			success: function( response ){
+// 				console.log( response ); //데이터 확인
+				var name = [ unit ], count = [ '채용인원수' ];
+				$(response).each(function(){
+					name.push( this.UNIT );
+					count.push( this.COUNT );
+				});
+				make_chart_hirement( [name, count] );
+				
+			},error: function( req, text ){
+				alert(text + ":" + req.status);
+			}
 		});
 	};
 	
-	$('[name=unit]').change(function(){
-		init();
+	function make_chart_hirement(info){
+		c3.generate({
+			bindto: '#graph',
+			data: { columns: info, type:'bar', labels:true, 
+				x: $('[name=unit]:checked').val(),	
+				color: function(c, d){ return colors[ Math.floor(d.value/10) ]; }
+			},
+			axis:{
+				x: { type: 'category' },
+				y: { label: { text: info[1][0], position:'outer-top' } }
+			},
+			bar: { width:30 },
+			size: { height:450 },
+			grid: { y: {show:true} },
+			legend: { hide:true },
+		});
+		$('#legend').css('display', 'flex');
+	}
+	
+	$('[name=unit], #top3').change(function(){
 		hirement();
 	});
 	
@@ -182,7 +247,7 @@ $(function(){
 		$('#legend').css('display', 'flex');
 	}
 
-	var colors = [ '#fcba03','#fc3d03','#55fbff','#3388ff','#8000ff','#f21bcb'
+	var colors = [ '#fcba03','#fc3d03','dodgerblue','#3388ff','#8000ff','#f21bcb'
 		, '#b8caf2', '#f2ceb8', '#b8bcf2', '#40913d', '#6f3d91', '#e6aecc', '#f7f6c1' ];
 
 	//도넛 그래프

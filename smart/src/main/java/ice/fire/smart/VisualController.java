@@ -16,6 +16,31 @@ import visual.VisualServiceImpl;
 public class VisualController {
 	@Autowired private VisualServiceImpl service;
 	
+	//상위 3개 부터의 년도별 채용인원수 조회
+	@ResponseBody @RequestMapping("/visual/hirement/top3/year")
+	public Object hirement_top3_year() {
+		return service.hirement_top3_year();
+	}
+	
+	//상위 3개 부터의 월별 채용인원수 조회
+	@ResponseBody @RequestMapping("/visual/hirement/top3/month")
+	public Object hirement_top3_month() {
+		return service.hirement_top3_month();
+	}
+	
+	//연도별 채용인원수 조회
+	@ResponseBody @RequestMapping("/visual/hirement/year")
+	public Object hirement_year() {
+		return service.hirement_year();
+	}
+	
+	//월별 채용인원수 조회
+	@ResponseBody @RequestMapping("/visual/hirement/month")
+	public Object hirement_month() {
+		return service.hirement_month();
+	}
+	
+	
 	//부서별 사원수 정보조회
 	@ResponseBody @RequestMapping("/visual/department")
 	public List<HashMap<String, Object>> department() {

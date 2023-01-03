@@ -19,14 +19,22 @@ public class VisualDAO implements VIsualService {
 
 	@Override
 	public List<HashMap<String, Object>> hirement_year() {
-		// TODO Auto-generated method stub
-		return null;
+		return sql.selectList("visual.year");
 	}
 
 	@Override
 	public List<HashMap<String, Object>> hirement_month() {
-		// TODO Auto-generated method stub
-		return null;
+		return sql.selectList("visual.month");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> hirement_top3_month() {
+		return sql.selectList("visual.top3_month");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> hirement_top3_year() {
+		return sql.selectList("visual.top3_year");
 	}
 
 }
