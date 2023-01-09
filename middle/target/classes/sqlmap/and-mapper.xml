@@ -3,12 +3,52 @@
 <mapper namespace="and">
 	
 	
-	
-	<!-- bteam 자유게시판 조회 -->
-	<select id="board_list" resultType='vo.BoardVO'>
-	select * from board
+	<!-- 특정 게시판의 댓글 조회 -->
+	<select id="reply_list" resultType='vo.ReplyVO'>
+	select 	* 
+	from 	(select r.*, rownum no, member_name from board_reply r inner join member m on r.writer = m.member_code)
+	where	board_code = #{board_code}
+	order by no desc
 	</select>
 	
+	<!-- 자유게시판 update -->
+	<update id="board_update">
+	update board set title = #{title}, content = #{content} where board_code = #{board_code}
+	</update>
 	
+	<!-- 자유게시판 삭제 -->
+	<delete id="board_delete">
+	delete from board where board_code = #{board_code}
+	</delete>
+	
+	<!-- 자유게시판 신규 등록 -->
+	<insert id="board_insert">
+	insert into board (title, content, writer, category)
+	values(#{title}, #{content}, #{writer}, 'bo')
+	</insert>
+	
+	<!-- 특정 게시판 정보 조회 -->
+	<select id="board_info" resultType='vo.BoardVO'>
+	select  *
+	from    (select b.*, member_name from board b inner join member m on b.writer = m.member_code)
+	where	board_code = #{board_code}
+	</select>
+	
+	<!-- 특정 게시판 조회시 조회수 증가 -->
+	<update id="readcnt">
+	update board set readcnt = readcnt + 1 where board_code = #{board_code}
+	</update>
+	
+	<!-- 자유게시판 조회 -->
+	<select id="board_list" resultType='vo.BoardVO'>
+	select  *
+	from    (select b.*, member_name, rownum no from board b inner join member m on b.writer = m.member_code)
+	order by no desc
+	</select>
+	
+	<!-- writer -> member_code 조회 -->
+<!-- 	<select id="board_writer" resultType='string'> -->
+<!-- 	select member_name from member where member_code = #{writer} -->
+<!-- 	</select> -->
 	
 </mapper>
