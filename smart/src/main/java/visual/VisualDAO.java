@@ -34,7 +34,31 @@ public class VisualDAO implements VIsualService {
 
 	@Override
 	public List<HashMap<String, Object>> hirement_top3_year() {
+		
+
+		
 		return sql.selectList("visual.top3_year");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> hirement_year(HashMap<String, Object> map) {
+		return sql.selectList("visual.year", map);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> hirement_top3_year(HashMap<String, Object> map) {
+		
+//		'2001' y2001, '2002' y2002, '2003' y2003, '2004' y2004, '2005' y2005
+//      , '2006' y2006, '2007' y2007, '2008' y2008, '2009' y2009, '2010' y2010 )
+		String range = "";
+		int begin = Integer.parseInt( map.get("begin").toString() ); 
+		int end = Integer.parseInt( map.get("end").toString() ); 
+		for(int year = begin; year <= end; year++) {
+			range += (range.isEmpty() ? "":", ") + "'"+year+"' y"+year;
+		}
+		map.put("range", range);
+		
+		return sql.selectList("visual.top3_year", map);
 	}
 
 }

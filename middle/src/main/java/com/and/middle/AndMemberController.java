@@ -57,7 +57,7 @@ public class AndMemberController {
 			System.out.println(file.getName());
 			imgPath = common.fileUpload("and", file, req);
 			
-			vo.setFile_path(imgPath);
+			
 			System.out.println(imgPath);
 		}
 		int result = sql.insert("mb.join", vo);

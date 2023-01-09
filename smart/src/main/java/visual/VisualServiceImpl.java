@@ -35,4 +35,14 @@ public class VisualServiceImpl implements VIsualService {
 		return dao.hirement_top3_year();
 	}
 
+	@Override
+	public List<HashMap<String, Object>> hirement_year(HashMap<String, Object> map) {
+		return dao.hirement_year(map);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> hirement_top3_year(HashMap<String, Object> map) {
+		return dao.hirement_top3_year(map);
+	}
+
 }

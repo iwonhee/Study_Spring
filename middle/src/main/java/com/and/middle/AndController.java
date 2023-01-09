@@ -1,7 +1,5 @@
 package com.and.middle;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,24 +8,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 
-import customer.CustomerVO;
-
 @RestController		// 안되면 spring-framework 버전 확인 (낮으면 안됨)
 public class AndController {
+	@Autowired @Qualifier("bteam") SqlSession sql;
 	
-	@Autowired @Qualifier("hanul") SqlSession sql;
 	
-	// @RestController 안에서는 생략가능!
-	@RequestMapping(value="/and", produces = "text/html;charset=utf-8")
+	
+	// 안드로이드 연동 테스트
+	@RequestMapping(value="/list.bo", produces = "text/html;charset=utf-8")
 	public String and() {
 		
-		List<CustomerVO> list = sql.selectList("and.list");
-		
-		for(int i = 0; i < list.size(); i++) {
-			System.out.print(list.get(i).getName() + " / " + list.get(i).getGender() +"\n");
-		}
-		return new Gson().toJson(list);
+		return new Gson().toJson(sql.selectList("and.board_list"));
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="/andVO", produces = "text/html;charset=utf-8")
 	public String andVo() {

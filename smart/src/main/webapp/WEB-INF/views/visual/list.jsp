@@ -31,11 +31,16 @@
 /* #legend>li { column-gap:30px } */
 #legend li:not(first-child){margin-left:30px;}
 .legend { width:15px; height:15px; margin-right:5px;}
+.year{width:70px !important; height:22px !important; text-align:center;}
 
 </style>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.css"/>
+<link rel="stylesheet" href="css/yearpicker.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+<script src="js/yearpicker.js"></script>
+
 </head>
 <body>
 <h3>시각화</h3>
@@ -56,6 +61,10 @@
 		<label><input type='checkbox' id='top3'>TOP3부서</label>
 		<label><input type='radio' name='unit' value='year' checked>년도별</label>
 		<label><input type='radio' name='unit' value='month'>월별</label>
+		<label>
+			<input type='text' id='begin' class='year w-80' style='margin-left:15px' readonly> ~ 
+			<input type='text' id='end' class='year w-80' readonly>
+		</label>
 	</div>
 	<div id='graph'></div>
 	<ul id='legend'>
@@ -99,8 +108,7 @@ $(function(){
 		
 	});
 
-	//클릭이벤트 강제발생
-	$('#tabs li').eq(1).trigger('click');
+	
 // 	$('.legend').each(function(idx){
 // 		$(this).css('background-color', colors[idx]);
 // 	});
@@ -145,17 +153,42 @@ $(function(){
 		var unit = $('[name=unit]:checked').val();
 		$.ajax({
 			url: 'visual/hirement/top3/' + unit,
+			type: 'post',
+			contentType: 'application/json',
+			data: JSON.stringify({ begin:$('#begin').val(), end: $('#end').val()}),
 			success: function(response){
 				console.log(response);
 				var info = [];
-				if( unit == 'year' ){					
+				if( unit == 'year' ){	
 					//연별
-					info.push( ['부서명', '2001','2002','2003','2004','2005','2006','2007','2008','2009','2010'] );
+					var years = ['부서명'];					
+					for( var year = $('#begin').val(); year <= $('#end').val(); year++ ){
+						years.push( year );
+					}
+					info.push( years );
+// 					info.push( ['부서명', '2001','2002','2003','2004','2005','2006','2007','2008','2009','2010'] );
+
+// 					$(response).each(function(){
+// 						info.push( new Array( this.DEPARTMENT_NAME, this.Y2001,this.Y2002,this.Y2003,this.Y2004,this.Y2005,this.Y2006,this.Y2007,this.Y2008,this.Y2009,this.Y2010, ) );
+// 					});  //↓ 변경									this[Y2001]
 					$(response).each(function(){
-						info.push( new Array( this.DEPARTMENT_NAME, this.Y2001,this.Y2002,this.Y2003,this.Y2004,this.Y2005,this.Y2006,this.Y2007,this.Y2008,this.Y2009,this.Y2010, ) );
+						years = [ this.DEPARTMENT_NAME ];
+						for( var year = $('#begin').val(); year <= $('#end').val(); year++ ){
+							years.push( this['Y'+year] ? this['Y'+year] : 0 );
+						}
+						info.push( years );
 					});
+					
+					
 				}else{
 					//월별
+					info.push( ['부서명', '01','02','03','04','05'
+									,'06','07','08','09','10','11','12'] );
+					$(response).each(function(){
+						info.push( new Array( this.DEPARTMENT_NAME, this.M01
+								,this.M02,this.M03,this.M04,this.M05,this.M06
+								,this.M07,this.M08,this.M09,this.M10,this.M11,this.M12 ) );
+					});
 				}
 				
 				c3.generate({
@@ -163,8 +196,24 @@ $(function(){
 					data: {columns: info, x:'부서명'
 							, type: unit=='year'?'bar':'line', labels:true
 					},
-					axis: { x: 'category' }
+					axis: { x: { type:'category', 
+								tick: { format: function(d){
+									return info[0][d+1] + (unit=='year'?'년':'월');
+											} 
+										} 
+								}
+						, y:{ label: {text:'채용인원수', position:'outer-top'} } 
+					},
+					padding: {bottom:50},
+					grid:{y: {show:true}},
+					size:{height:450},
+					legend:{
+						item: { tile: { width:15, height:15 } },
+						padding: 40,
+					}
 				});
+				$('.c3-legend-item').css('font-size', '16px');
+				$('.c3-line').css('stroke-width', '3px');
 			}
 		});
 	}
@@ -174,8 +223,10 @@ $(function(){
 		var unit = $('[name=unit]:checked').val();
 		$.ajax({
 			url: 'visual/hirement/' + unit,
+			type: 'post',
+			contentType: 'application/json',
+			data: JSON.stringify({ begin: $('#begin').val(), end: $('#end').val() }),
 			success: function( response ){
-// 				console.log( response ); //데이터 확인
 				var name = [ unit ], count = [ '채용인원수' ];
 				$(response).each(function(){
 					name.push( this.UNIT );
@@ -209,8 +260,30 @@ $(function(){
 	}
 	
 	$('[name=unit], #top3').change(function(){
+		//연도별인 경우만 보이게
+		$('.year').eq(0).closest('label')
+			.css('display', $('[name=unit]:checked').val()=='year'?'inline':'none' );
 		hirement();
 	});
+	
+	
+	//기본년도가 입력되어 있게
+	var thisYear = new Date().getFullYear();
+	$('#begin').val(thisYear-9);
+	$('#end').val(thisYear);
+	
+	$('#begin').yearpicker({
+		year: thisYear-9,
+		endYear: thisYear,
+	});
+	$('#end').yearpicker({
+		year: thisYear,
+		endYear: thisYear,
+	});
+	//연도 선택 이벤트
+	$(document).on('click', '.yearpicker-items', function(){
+		hirement();
+	})
 	
 	//그래프 그리기
 	function make_chart(info){
@@ -305,6 +378,9 @@ $(function(){
 	$('.legend').each(function(idx){
 		$(this).css('background-color', colors[idx]);
 	});
+	
+	//클릭이벤트 강제발생
+	$('#tabs li').eq(1).trigger('click');
 	
 })
 </script>

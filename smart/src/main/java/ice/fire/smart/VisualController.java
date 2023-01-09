@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,8 +19,8 @@ public class VisualController {
 	
 	//상위 3개 부터의 년도별 채용인원수 조회
 	@ResponseBody @RequestMapping("/visual/hirement/top3/year")
-	public Object hirement_top3_year() {
-		return service.hirement_top3_year();
+	public Object hirement_top3_year(@RequestBody HashMap<String, Object> map) {
+		return service.hirement_top3_year(map);
 	}
 	
 	//상위 3개 부터의 월별 채용인원수 조회
@@ -30,8 +31,8 @@ public class VisualController {
 	
 	//연도별 채용인원수 조회
 	@ResponseBody @RequestMapping("/visual/hirement/year")
-	public Object hirement_year() {
-		return service.hirement_year();
+	public Object hirement_year(@RequestBody HashMap<String, Object> map) {
+		return service.hirement_year(map);
 	}
 	
 	//월별 채용인원수 조회
