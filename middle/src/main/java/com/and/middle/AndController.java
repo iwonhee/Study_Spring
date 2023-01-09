@@ -1,29 +1,45 @@
 package com.and.middle;
 
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import vo.BoardVO;
+import vo.ReplyVO;
 
 @RestController		// 안되면 spring-framework 버전 확인 (낮으면 안됨)
 public class AndController {
 	@Autowired @Qualifier("bteam") SqlSession sql;
 	
+	
+	// 댓글 삭제
+	@RequestMapping("/delete.re")
+	public int delete_reply(ReplyVO vo) {
+		int result = sql.update("and.reply_delete", vo);
+		return result;
+	}
+	
+	// 댓글 수정
+	@RequestMapping("/update.re")
+	public int update_reply(ReplyVO vo) {
+		int result = sql.update("and.reply_update", vo);
+		return result;
+	}
+	
+	// 댓글 insert
+	@RequestMapping("/insert.re")
+	public int insert_reply(ReplyVO vo) {
+		int result = sql.insert("and.reply_insert", vo);
+		return result;
+	}
+	
 	// 댓글 조회
 	@RequestMapping(value="/list.re", produces = "text/html;charset=utf-8")
 	public String reply_list(int board_code) {
-		/*
-		 * SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		 * List<ReplyVO> list = sql.selectList("and.reply_list", board_code);
-		 */
-		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.reply_list", board_code));
 	}
 	

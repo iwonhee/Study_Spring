@@ -3,6 +3,22 @@
 <mapper namespace="and">
 	
 	
+	<!-- 댓글 삭제 -->
+	<delete id="reply_delete">
+	delete from board_reply where reply_code = #{reply_code}
+	</delete>
+	
+	<!-- 댓글 update -->
+	<update id="reply_update">
+	update board_reply set content = #{content}, writedate = #{writedate} where reply_code = #{reply_code}
+	</update>
+	
+	<!-- 댓글 insert -->
+	<insert id="reply_insert">
+	insert into board_reply (board_code, writer, content)
+	values (#{board_code}, #{writer}, #{content});
+	</insert>
+	
 	<!-- 특정 게시판의 댓글 조회 -->
 	<select id="reply_list" resultType='vo.ReplyVO'>
 	select 	* 
