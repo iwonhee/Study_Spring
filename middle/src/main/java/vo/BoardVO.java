@@ -6,7 +6,7 @@ public class BoardVO {
     private int board_code, writer, readcnt, root, indent, step, lecture_code, no;
     private String title, content, category, member_name;
     private Date writedate;
-
+    
     
     
     public int getNo() {
