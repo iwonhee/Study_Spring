@@ -1,5 +1,7 @@
 package com.and.middle;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,8 +41,11 @@ public class AndController {
 	
 	// 댓글 조회
 	@RequestMapping(value="/list.re", produces = "text/html;charset=utf-8")
-	public String reply_list(int board_code) {
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.reply_list", board_code));
+	public String reply_list(int board_code, int cnt) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("board_code", board_code);
+		map.put("cnt", cnt);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.reply_list", map));
 	}
 	
 	// 특정 게시판 조회
@@ -75,15 +80,29 @@ public class AndController {
 		return result;
 	}
 	
-	// 자유게시판 정보 조회
+	// 자유게시판 목록 조회
 	@RequestMapping(value="/list.bo", produces = "text/html;charset=utf-8")
-	public String and() {
-		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.board_list"));
+	public String and(int cnt) {
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.board_list", cnt));
 	}
 	
+	// 자유게시판 남은 게시글 수 반환
+	@RequestMapping(value="cal.bo", produces="text/html;charset=utf-8")
+	public String cal_board(int cnt) {
+		
+		int boardCount = sql.selectOne("and.cal_board");
+		
+		return ( boardCount - (cnt*10) ) + "";
+	}
 	
-	
+	// 특정 게시글의 남은 댓글 수
+	@RequestMapping(value="cal.re", produces="text/html;charset=utf-8")
+	public String cal_reply(int cnt, int board_code) {
+		
+		int boardCount = sql.selectOne("and.cal_reply", board_code);
+		
+		return ( boardCount - (cnt*10) ) + "";
+	}
 	
 	
 	
