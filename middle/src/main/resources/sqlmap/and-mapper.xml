@@ -3,6 +3,30 @@
 <mapper namespace="and">
 	
 	
+	<!-- 강의영상 정보 조회 - 특정 강의 카테고리 -->
+	<select id="video_list" resultType='vo.BoardVO'>
+	select  *
+	from    (select b.*, member_name, row_number() over(order by board_code) no 
+        from board b inner join member m 
+        on b.writer = m.member_code 
+        where category = #{category})
+	where no between    (select  max(no)-(9*#{cnt})
+                            from    (select row_number() over(order by board_code) no 
+                            from board
+                            where category = #{category}))
+                and 
+                    (select  max(no)
+                            from    (select row_number() over(order by board_code) no 
+                            from board
+                            where category = #{category}))
+	order by no desc
+	</select>
+	
+	<!-- 강의영상 삭제 -->
+	<delete id="delete_video">
+	delete from board where board_code = #{board_code}	
+	</delete>
+	
 	<!-- 댓글 삭제 -->
 	<delete id="reply_delete">
 	delete from board_reply where reply_code = #{reply_code}
@@ -102,6 +126,11 @@
 	<!-- 해당 게시글의 총 댓글 수 조회 -->
 	<select id="cal_reply" resultType='integer'>
 	select count(*) from board_reply where board_code = #{board_code}
+	</select>
+	
+	<!-- 특정 강의 강의영상 수 조회 -->
+	<select id="cal_video" resultType='integer'>
+	select count(*) from board where category = #{category}
 	</select>
 	
 	<!-- writer -> member_code 조회 -->

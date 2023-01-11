@@ -85,6 +85,33 @@ public class AndController {
 		vo.setFileList(files);
 	}
 	
+	
+	// 강의영상 insert	==> 강의영상 업로드 어떻게 할지 정해야함. 파일, url
+	
+	// 강의영상 수정
+	
+	// 강의영상 삭제
+	@RequestMapping(value="/delete.vi", produces = "text/html;charset=utf-8")
+	public int delete_video(int board_code) {
+		int result = sql.delete("and.delete_video", board_code);
+		return result;
+	}
+	
+	// 특정 강의영상 정보 조회
+	@RequestMapping(value="/info.vi", produces = "text/html;charset=utf-8")
+	public String info_video(int board_code) {
+		//조회수 증가처리
+		sql.update("and.readcnt", board_code);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.video_list", board_code));
+	}
+	
+	// 강의영상 목록조회 -- 특정 강의 카테고리
+	@RequestMapping(value="/list.vi", produces = "text/html;charset=utf-8")
+	public String videoList(BoardVO vo) {	// cnt, category 묶으려고 BoardVO로 받음 -> 안드에서 담아서 보내기
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.video_list", vo));
+	}
+	
 	// 댓글 삭제
 	@RequestMapping("/delete.re")
 	public int delete_reply(ReplyVO vo) {
@@ -93,14 +120,14 @@ public class AndController {
 	}
 	
 	// 댓글 수정
-	@RequestMapping("/update.re")
+	@RequestMapping(value="/update.re", produces = "text/html;charset=utf-8")
 	public int update_reply(ReplyVO vo) {
 		int result = sql.update("and.reply_update", vo);
 		return result;
 	}
 	
 	// 댓글 insert
-	@RequestMapping("/insert.re")
+	@RequestMapping(value="/insert.re", produces = "text/html;charset=utf-8")
 	public int insert_reply(ReplyVO vo) {
 		int result = sql.insert("and.reply_insert", vo);
 		return result;
@@ -167,6 +194,15 @@ public class AndController {
 	public String cal_reply(int cnt, int board_code) {
 		
 		int boardCount = sql.selectOne("and.cal_reply", board_code);
+		
+		return ( boardCount - (cnt*10) ) + "";
+	}
+	
+	// 강의영상 남은 게시글 수 반환
+	@RequestMapping(value="cal.vi", produces="text/html;charset=utf-8")
+	public String cal_video(int cnt, String category) {
+		
+		int boardCount = sql.selectOne("and.cal_video", category);
 		
 		return ( boardCount - (cnt*10) ) + "";
 	}
