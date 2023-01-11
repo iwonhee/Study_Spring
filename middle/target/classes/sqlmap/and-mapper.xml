@@ -54,6 +54,15 @@
 	values(#{title}, #{content}, #{writer}, 'bo')
 	</insert>
 	
+	<!-- 첨부파일 insert -->
+	<insert id="file_insert">
+	<foreach item="item" collection="fileList"
+        open="insert all " separator=" " close="select * from dual">
+          into board_file(board_code, file_name, path)
+		  values( #{board_code}, #{item.file_name}, #{item.path} )
+   	</foreach>
+	</insert>
+	
 	<!-- 특정 게시판 정보 조회 -->
 	<select id="board_info" resultType='vo.BoardVO'>
 	select  *

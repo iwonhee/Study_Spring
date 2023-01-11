@@ -2,6 +2,7 @@ package common;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import vo.BoardFileVO;
 
 
 @Service
@@ -39,7 +42,7 @@ public class CommonService {
 		// http://localhost/smart/upload/myinfo/.date./asefl_abc.png
 		return appURL(request) + upload + "/" + filename;
 	}
-	
+		
 	
 	
 	// 요청 url의 contextpath

@@ -1,22 +1,89 @@
 package com.and.middle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import common.CommonService;
+import vo.BoardFileVO;
 import vo.BoardVO;
 import vo.ReplyVO;
 
 @RestController		// 안되면 spring-framework 버전 확인 (낮으면 안됨)
 public class AndController {
 	@Autowired @Qualifier("bteam") SqlSession sql;
+	@Autowired CommonService common;
 	
+
+	//신규 게시글(+첨부파일) 저장
+	@RequestMapping(value="/insert.fi", produces = "text/html;charset=utf-8")
+	public int insert_file(String param, HttpServletRequest req) {
+		
+		BoardVO vo = new Gson().fromJson(param, BoardVO.class);
+		String test = req.getParameter("param");
+		
+		MultipartRequest mReq = (MultipartRequest) req;
+		String zzzz = mReq.getMultipartContentType("param");
+		List<MultipartFile> fileList = mReq.getFiles("file");
+		for(int i = 0; i < fileList.size(); i++) {
+			MultipartFile file=  fileList.get(i); // getFiles 또는 getFileMap활용.
+			System.out.println(file.getOriginalFilename());
+			System.out.println(file.getName());
+		}	
+		
+//		String imgPath = null;
+//		for(int i = 0; i < file.length; i++) {			
+//			if(file != null) {
+//				imgPath = common.fileUpload("and", file[i], req);
+//			}
+//			vo.setFileList(list);
+//			
+//		}
+//				
+//		attachedFile(vo, file, req);
+//			
+//		
+//		//게시글 insert
+//		int result = sql.insert("and.board_insert", vo);
+//		
+//		//첨부파일 있으면 board_file 테이블에도 insert 처리
+//		if(list.size() > 0) {
+//			sql.insert("and.file_insert", vo);
+//		}
+		
+		System.out.println("");
+		
+		return 1;
+	}
+	
+	//파일첨부 메소드
+	private void attachedFile(BoardVO vo, MultipartFile file[], HttpServletRequest req) {
+		List<BoardFileVO> files = null;
+		for( MultipartFile attached : file ) {
+			if( attached.isEmpty() ) continue;
+			if( files==null )files = new ArrayList<BoardFileVO>();
+			
+			BoardFileVO fileVO = new BoardFileVO();
+			fileVO.setFilename( attached.getOriginalFilename() );
+			fileVO.setFilepath( common.fileUpload("board", attached, req) );
+			files.add(fileVO);
+		}
+		vo.setFileList(files);
+	}
 	
 	// 댓글 삭제
 	@RequestMapping("/delete.re")
