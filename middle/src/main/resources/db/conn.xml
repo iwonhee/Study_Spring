@@ -28,6 +28,7 @@
 		<property name="password" value="${hr.password}"/>
 	</bean>
 	
+	
 	<!-- mybatis 사용을 위한 SqlSession 생성객체인 SqlSessionFactoryBean -->
 	<bean id="bteam_factory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="mapperLocations" value="classpath:sqlmap/*-mapper.xml"/>
@@ -42,6 +43,7 @@
 		<property name="dataSource" ref="hr_dbcp"/>
 		<property name="mapperLocations" value="classpath:sqlmap/*-mapper.xml"/>
 	</bean>
+	
 	
 	<!-- mybatis 사용을 위한 SqlSession 생성 객체 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
