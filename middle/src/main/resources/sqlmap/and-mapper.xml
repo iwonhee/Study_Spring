@@ -52,6 +52,9 @@
 	<insert id="board_insert">
 	insert into board (title, content, writer, category)
 	values(#{title}, #{content}, #{writer}, 'bo')
+	<selectKey keyProperty="board_code" resultType="integer" order="AFTER">
+			select seq_board.currval from dual
+	</selectKey>
 	</insert>
 	
 	<!-- 첨부파일 insert -->

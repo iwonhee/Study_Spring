@@ -1,20 +1,20 @@
 package vo;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.ArrayList;
 
 public class BoardVO {
     private int board_code, writer, readcnt, root, indent, step, lecture_code, no;
     private String title, content, category, member_name;
     private Date writedate;
-    private List<BoardFileVO> fileList;
+    private ArrayList<BoardFileVO> fileList;
     
     
-    public List<BoardFileVO> getFileList() {
+    public ArrayList<BoardFileVO> getFileList() {
 		return fileList;
 	}
 
-	public void setFileList(List<BoardFileVO> fileList) {
+	public void setFileList(ArrayList<BoardFileVO> fileList) {
 		this.fileList = fileList;
 	}
 

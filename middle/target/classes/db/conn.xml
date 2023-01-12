@@ -47,7 +47,7 @@
 	
 	<!-- mybatis 사용을 위한 SqlSession 생성 객체 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg ref="bteam_factory"/>
+		<constructor-arg name="sqlSessionFactory" ref="bteam_factory"/>
 		<qualifier value="bteam"/>
 	</bean>
 	

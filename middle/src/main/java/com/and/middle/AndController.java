@@ -39,47 +39,41 @@ public class AndController {
 		MultipartRequest mReq = (MultipartRequest) req;
 		String zzzz = mReq.getMultipartContentType("param");
 		List<MultipartFile> fileList = mReq.getFiles("file");
+		String imgPath = null;
+		ArrayList<BoardFileVO> list = new ArrayList<>();
+		
 		for(int i = 0; i < fileList.size(); i++) {
+			BoardFileVO f_vo = new BoardFileVO();
 			MultipartFile file=  fileList.get(i); // getFiles 또는 getFileMap활용.
 			System.out.println(file.getOriginalFilename());
 			System.out.println(file.getName());
+			f_vo.setFile_name(file.getOriginalFilename());
+			imgPath = common.fileUpload("and", file, req);
+			f_vo.setPath(imgPath);
+			list.add(f_vo);
+			
 		}	
+		vo.setFileList(list);
 		
-//		String imgPath = null;
-//		for(int i = 0; i < file.length; i++) {			
-//			if(file != null) {
-//				imgPath = common.fileUpload("and", file[i], req);
-//			}
-//			vo.setFileList(list);
-//			
-//		}
-//				
-//		attachedFile(vo, file, req);
-//			
-//		
-//		//게시글 insert
-//		int result = sql.insert("and.board_insert", vo);
-//		
-//		//첨부파일 있으면 board_file 테이블에도 insert 처리
-//		if(list.size() > 0) {
-//			sql.insert("and.file_insert", vo);
-//		}
+		int result = sql.insert("and.board_insert", vo);
+		if(list.size() > 0) {
 		
-		System.out.println("");
+			sql.insert("and.file_insert", vo);
+		}
 		
-		return 1;
+		return result;
 	}
 	
-	//파일첨부 메소드
-	private void attachedFile(BoardVO vo, MultipartFile file[], HttpServletRequest req) {
-		List<BoardFileVO> files = null;
+	//파일첨부 메소드 - 참고
+	public void attachedFile(BoardVO vo, MultipartFile file[], HttpServletRequest req) {
+		ArrayList<BoardFileVO> files = null;
 		for( MultipartFile attached : file ) {
 			if( attached.isEmpty() ) continue;
 			if( files==null )files = new ArrayList<BoardFileVO>();
 			
 			BoardFileVO fileVO = new BoardFileVO();
-			fileVO.setFilename( attached.getOriginalFilename() );
-			fileVO.setFilepath( common.fileUpload("board", attached, req) );
+			fileVO.setFile_name( attached.getOriginalFilename() );
+			fileVO.setPath( common.fileUpload("board", attached, req) );
 			files.add(fileVO);
 		}
 		vo.setFileList(files);
