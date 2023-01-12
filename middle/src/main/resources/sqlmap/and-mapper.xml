@@ -66,6 +66,11 @@
    	</foreach>
 	</insert>
 	
+	<!-- 특정 게시글의 첨부파일 조회 -->
+	<select id="file_info" resultType='vo.BoardFileVO'>
+	select * from board_file where board_code = #{board_code}
+	</select>
+	
 	<!-- 특정 게시판 정보 조회 -->
 	<select id="board_info" resultType='vo.BoardVO'>
 	select  *

@@ -26,18 +26,17 @@ import vo.ReplyVO;
 @RestController		// 안되면 spring-framework 버전 확인 (낮으면 안됨)
 public class AndController {
 	@Autowired @Qualifier("bteam") SqlSession sql;
-	@Autowired CommonService common;
+	@Autowired @Qualifier("common") CommonService common;
 	
+	//new TypeToken<ArrayList<String>>(){}.getType()
 
 	//신규 게시글(+첨부파일) 저장
 	@RequestMapping(value="/insert.fi", produces = "text/html;charset=utf-8")
 	public int insert_file(String param, HttpServletRequest req) {
 		
 		BoardVO vo = new Gson().fromJson(param, BoardVO.class);
-		String test = req.getParameter("param");
 		
 		MultipartRequest mReq = (MultipartRequest) req;
-		String zzzz = mReq.getMultipartContentType("param");
 		List<MultipartFile> fileList = mReq.getFiles("file");
 		String imgPath = null;
 		ArrayList<BoardFileVO> list = new ArrayList<>();
@@ -112,11 +111,15 @@ public class AndController {
 	// 특정 게시판 조회
 	@RequestMapping(value="/info.bo", produces = "text/html;charset=utf-8")
 	public String board_info(int board_code) {
-		//조회수 증가처리
-		sql.update("and.readcnt", board_code);
+		
+		sql.update("and.readcnt", board_code); //조회수 증가
 		
 		//특정 게시판 조회
-		BoardVO vo =sql.selectOne("and.board_info", board_code);
+		BoardVO vo = sql.selectOne("and.board_info", board_code);
+		
+		//해당 게시판의 파일정보 조회
+		vo.setFileList( sql.selectList("and.file_info", board_code) ) ;
+		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(vo);
 	}
 	

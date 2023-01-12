@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vo.BoardFileVO;
 
 
-@Service
+@Service("common")
 public class CommonService {
 	
 	//첨부파일 업로드
