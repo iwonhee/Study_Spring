@@ -32,7 +32,7 @@ public class AndController {
 
 	//신규 게시글(+첨부파일) 저장
 	@RequestMapping(value="/insert.fi", produces = "text/html;charset=utf-8")
-	public int insert_file(String param, HttpServletRequest req) {
+	public String insert_file(String param, HttpServletRequest req) {
 		
 		BoardVO vo = new Gson().fromJson(param, BoardVO.class);
 		
@@ -60,7 +60,7 @@ public class AndController {
 			sql.insert("and.file_insert", vo);
 		}
 		
-		return result;
+		return result+"";
 	}
 	
 	//파일첨부 메소드 - 참고
