@@ -10,10 +10,16 @@
 	<!-- DB 접속 정보 가져오기 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@fq8js0ikjyiung9a_high?TNS_ADMIN=C:/Wallet202"/>
+		<property name="username" value="bteam"/>
+		<property name="password" value="Hanul2QWER!@#$"/>
+	</bean>
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@fq8js0ikjyiung9a_high?TNS_ADMIN=D:/Wallet202"/>
 		<property name="username" value="Bteam"/>
 		<property name="password" value="Hanul2QWER!@#$"/>
-	</bean>
+	</bean> -->
 	
 	<bean id="hanul_dbcp" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${oracleDriver}"/>
@@ -30,8 +36,9 @@
 	
 	
 	<!-- mybatis 사용을 위한 SqlSession 생성객체인 SqlSessionFactoryBean -->
-	<bean id="bteam_factory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="mapperLocations" value="classpath:sqlmap/*-mapper.xml"/>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="mapperLocations"
+		value="classpath:sqlmap/*-mapper.xml"/>
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	
@@ -47,7 +54,7 @@
 	
 	<!-- mybatis 사용을 위한 SqlSession 생성 객체 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg name="sqlSessionFactory" ref="bteam_factory"/>
+		<constructor-arg ref="sqlSessionFactory"/>
 		<qualifier value="bteam"/>
 	</bean>
 	

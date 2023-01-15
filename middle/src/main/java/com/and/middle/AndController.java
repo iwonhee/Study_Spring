@@ -62,6 +62,13 @@ public class AndController {
 		
 		return result+"";
 	}
+//	//신규게시글 저장 
+//	@RequestMapping(value="/insert.bo", produces = "text/html;charset=utf-8")
+//	public int insert_board(String param) {
+//		BoardVO vo = new Gson().fromJson(param, BoardVO.class);
+//		int result = sql.insert("and.board_insert", vo);
+//		return result;
+//	}
 	
 	//파일첨부 메소드 - 참고
 	public void attachedFile(BoardVO vo, MultipartFile file[], HttpServletRequest req) {
@@ -78,10 +85,16 @@ public class AndController {
 		vo.setFileList(files);
 	}
 	
+	// 강의영상 uri 조회
+	@RequestMapping(value="/selectVideo", produces = "text/html;charset=utf-8")
+	public String selectVideo(int board_code) {
+		
+		return sql.selectOne("and.selectVideo", board_code);
+	}
 	
-	// 강의영상 insert	==> 강의영상 업로드 어떻게 할지 정해야함. 파일, url
+	// 강의영상 insert	==> 웹
 	
-	// 강의영상 수정
+	// 강의영상 수정 ==> 웹
 	
 	// 강의영상 삭제
 	@RequestMapping(value="/delete.vi", produces = "text/html;charset=utf-8")
@@ -148,6 +161,18 @@ public class AndController {
 		vo.setFileList( sql.selectList("and.file_info", board_code) ) ;
 		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(vo);
+	}
+	
+	// 자유게시판 검색
+	@RequestMapping(value="/search.bo", produces = "text/html;charset=utf-8")
+	public String search_board(String column, String search) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("column", column);
+		map.put("search", search);
+		
+		List<BoardVO> list = sql.selectList("and.search_board", map);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}
 	
 	// 자유게시판 update
