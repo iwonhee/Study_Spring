@@ -16,11 +16,13 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import common.CommonService;
 import member.MemberVO;
 import vo.BoardFileVO;
 import vo.BoardVO;
+import vo.CounselVO;
 import vo.ReplyVO;
 
 @RestController		// 안되면 spring-framework 버전 확인 (낮으면 안됨)
@@ -30,15 +32,40 @@ public class AndController {
 	
 	//new TypeToken<ArrayList<String>>(){}.getType()
 	
-	//상담 게시글 목록 조회
+	//상담 답변 삭제  --> 같은 row에 있는 answer 값만 null로 변경
+	@RequestMapping(value="/delete_answer", produces = "text/html;charset=utf-8")
+	public int delete_answer(int counsel_code) {
+		int result = sql.update("and.delete_answer", counsel_code);
+		return result;
+	}
+	
+	//상담 insert 처리
+	@RequestMapping(value="/insert.co", produces = "text/html;charset=utf-8")
+	public int insert_counsel(CounselVO vo) {
+		int result = sql.insert("and.insert_counsel", vo);
+		return result;
+	}
+	
+	//상담 강사 목록 조회	==> 수강중인 강의에서만 불러옴
+	@RequestMapping(value="/list.te", produces = "text/html;charset=utf-8")
+	public String counsel_teacher_list(int member_code) {
+		//강사이름 조회
+		List<MemberVO> list = sql.selectList("and.counsel_teacher_list", member_code);
+		
+		return new Gson().toJson(list);
+	}
+	
+	//상담 목록 조회
 	@RequestMapping(value="/list.co", produces = "text/html;charset=utf-8")
-	public String counsel_list(int member_code, String type) {	//loginInfo -> member_code, type 필요함
+	public String counsel_list(String vo) {	//loginInfo -> member_code, type 필요함
 		//학생 member_code	=> writer
 		//강사 member_code	=> receiver
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("member_code", member_code);
-		map.put("type", type);
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.counsel_list", map));
+//		HashMap<String, Object> map = new HashMap<>();
+//		map.put("member_code", member_code);
+//		map.put("type", type);
+		MemberVO member = new Gson().fromJson(vo, new TypeToken<ArrayList<MemberVO>>(){}.getType());
+		List<CounselVO> list = sql.selectList("and.counsel_list", member);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}
 	
 	
