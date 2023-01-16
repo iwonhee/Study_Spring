@@ -16,9 +16,9 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import common.CommonService;
+import member.MemberVO;
 import vo.BoardFileVO;
 import vo.BoardVO;
 import vo.ReplyVO;
@@ -29,7 +29,19 @@ public class AndController {
 	@Autowired @Qualifier("common") CommonService common;
 	
 	//new TypeToken<ArrayList<String>>(){}.getType()
-
+	
+	//상담 게시글 목록 조회
+	@RequestMapping(value="/list.co", produces = "text/html;charset=utf-8")
+	public String counsel_list(int member_code, String type) {	//loginInfo -> member_code, type 필요함
+		//학생 member_code	=> writer
+		//강사 member_code	=> receiver
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("member_code", member_code);
+		map.put("type", type);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.counsel_list", map));
+	}
+	
+	
 	//신규 게시글(+첨부파일) 저장
 	@RequestMapping(value="/insert.fi", produces = "text/html;charset=utf-8")
 	public String insert_file(String param, HttpServletRequest req) {
@@ -206,7 +218,8 @@ public class AndController {
 	// 자유게시판 목록 조회
 	@RequestMapping(value="/list.bo", produces = "text/html;charset=utf-8")
 	public String and(int cnt) {
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.board_list", cnt));
+		List<BoardVO> list = sql.selectList("and.board_list", cnt);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}
 	
 	// 자유게시판 남은 게시글 수 반환

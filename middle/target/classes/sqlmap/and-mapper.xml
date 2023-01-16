@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="and">
 	
+	
+	
+	<!-- 상담신청 목록 조회 -->
+	<select id="counsel_list" resultType='vo.CounselVO'>
+	select  *
+	from    (select  c.*, w.member_name writer_name, r.member_name receiver_name, row_number() over(order by counsel_code) no
+	        from    counsel c inner join member w
+	        on      c.writer = w.member_code
+	        left outer join member r
+	        on      c.receiver = r.member_code)
+	where   counsel_code = root 
+	<choose>
+		<when test='type=="STUD"'>and writer = #{member_code}</when>
+		<when test='type=="TEACH"'>and receiver = #{member_code}</when>
+	</choose>
+	order by no desc
+	</select>
+	
+	
+	
 	<!-- 강의영상 uri 조회 -->
 	<select id="selectVideo" resultType='String'>
 	select path from board where board_code = #{board_code}
