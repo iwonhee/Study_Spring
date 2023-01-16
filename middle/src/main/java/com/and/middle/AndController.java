@@ -90,6 +90,7 @@ public class AndController {
 	public String selectVideo(int board_code) {
 		
 		return sql.selectOne("and.selectVideo", board_code);
+		
 	}
 	
 	// 강의영상 insert	==> 웹
@@ -108,14 +109,18 @@ public class AndController {
 	public String info_video(int board_code) {
 		//조회수 증가처리
 		sql.update("and.readcnt", board_code);
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.video_list", board_code));
+		BoardVO test = sql.selectOne("and.board_info", board_code);
+		//해당 게시판의 파일정보 조회
+		test.setFileList( sql.selectList("and.file_info", board_code) ) ;
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(test);
 	}
 	
 	// 강의영상 목록조회 -- 특정 강의 카테고리
 	@RequestMapping(value="/list.vi", produces = "text/html;charset=utf-8")
-	public String videoList(BoardVO vo) {	// cnt, category 묶으려고 BoardVO로 받음 -> 안드에서 담아서 보내기
+	public String videoList(int cnt) {	// cnt, category 묶으려고 BoardVO로 받음 -> 안드에서 담아서 보내기
 		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.video_list", vo));
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sql.selectList("and.video_list", cnt));
 	}
 	
 	// 댓글 삭제
@@ -191,8 +196,10 @@ public class AndController {
 	
 	// 자유게시판 신규 등록
 	@RequestMapping(value="/insert.bo", produces = "text/html;charset=utf-8")
-	public int board_insert(BoardVO vo) {
-		int result = sql.insert("and.board_insert", vo);
+	public int board_insert(String param) {
+		
+		BoardVO board = new Gson().fromJson(param, BoardVO.class);
+		int result = sql.insert("and.board_insert", board);
 		return result;
 	}
 	

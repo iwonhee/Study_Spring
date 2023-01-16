@@ -22,22 +22,22 @@
 	order by no desc
 	</select>
 	
-	<!-- 강의영상 정보 조회 - 특정 강의 카테고리 -->
+	<!-- 강의영상 목록 조회 - 특정 강의 카테고리 -->
 	<select id="video_list" resultType='vo.BoardVO'>
 	select  *
 	from    (select b.*, member_name, row_number() over(order by board_code) no 
         from board b inner join member m 
         on b.writer = m.member_code 
-        where category = #{category})
+        where category = 'vi')
 	where no between    (select  max(no)-(9*#{cnt})
                             from    (select row_number() over(order by board_code) no 
                             from board
-                            where category = #{category}))
+                            where category = 'vi'))
                 and 
                     (select  max(no)
                             from    (select row_number() over(order by board_code) no 
                             from board
-                            where category = #{category}))
+                            where category = 'vi'))
 	order by no desc
 	</select>
 	
