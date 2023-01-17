@@ -3,9 +3,25 @@
 <mapper namespace="and">
 	
 	
+	<!-- 상담 삭제 -->
+	<delete id="delete_counsel">
+	delete from counsel where counsel_code = #{counsel_code}
+	</delete>
+	
+	<!-- 답변 등록 -->
+	<update id="insert_answer">
+	update counsel set answer = #{answer} where counsel_code = #{counsel_code}
+	</update>
+	
 	<!-- 상담 답변 삭제 -->
 	<update id="delete_answer">
 	update counsel set answer = null where counsel_code = #{counsel_code}
+	</update>
+	
+	<!-- 상담 수정 -->
+	<update id="update_counsel">
+	update counsel set content = #{content}, write_date = sysdate
+	where counsel_code = #{counsel_code}
 	</update>
 	
 	<!-- 상담 insert -->
@@ -22,8 +38,19 @@
 	where member_code = (select teacher_code
 						from enrolment e inner join lecture l
 						on e.lecture_code = l.lecture_code
-						where status = 2
+						where status IN (1,2)
 						and member_code = #{member_code})
+	</select>
+	
+	<!-- 상담 상세 정보 조회 -->
+	<select id="counsel_info" resultType='vo.CounselVO'>
+	select  *
+	from    (select  c.*, w.member_name writer_name, r.member_name receiver_name, row_number() over(order by counsel_code) no
+	        from    counsel c inner join member w
+	        on      c.writer = w.member_code
+	        left outer join member r
+	        on      c.receiver = r.member_code)
+	where counsel_code = #{counsel_code}
 	</select>
 	
 	<!-- 상담 목록 조회 -->

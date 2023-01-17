@@ -32,6 +32,36 @@ public class AndController {
 	
 	//new TypeToken<ArrayList<String>>(){}.getType()
 	
+	//상담 삭제
+	@RequestMapping(value="/delete.co", produces = "text/html;charset=utf-8")
+	public int delete_counsel(int counsel_code) {
+		int result = sql.delete("and.delete_counsel", counsel_code);
+		return result;
+	}
+	
+	//상담 수정
+	@RequestMapping(value="/update.co", produces = "text/html;charset=utf-8")
+	public int update_counsel(String vo) {
+		CounselVO counsel = new Gson().fromJson(vo, CounselVO.class);
+		int result = sql.update("and.update_counsel", counsel);
+		return result;
+	}
+	
+	//상담 상세 정보 조회
+	@RequestMapping(value="/info.co", produces = "text/html;charset=utf-8")
+	public String counsel_info(int counsel_code) {
+		CounselVO vo = sql.selectOne("and.counsel_info", counsel_code);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(vo);
+	}
+	
+	//답변 등록
+	@RequestMapping(value="/insert_answer", produces = "text/html;charset=utf-8")
+	public int insert_answer(String vo) {
+		CounselVO counsel = new Gson().fromJson(vo, CounselVO.class);
+		int result = sql.update("and.insert_answer", counsel);
+		return result;
+	}
+	
 	//상담 답변 삭제  --> 같은 row에 있는 answer 값만 null로 변경
 	@RequestMapping(value="/delete_answer", produces = "text/html;charset=utf-8")
 	public int delete_answer(int counsel_code) {
@@ -41,8 +71,9 @@ public class AndController {
 	
 	//상담 insert 처리
 	@RequestMapping(value="/insert.co", produces = "text/html;charset=utf-8")
-	public int insert_counsel(CounselVO vo) {
-		int result = sql.insert("and.insert_counsel", vo);
+	public int insert_counsel(String vo) {
+		CounselVO counsel = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(vo, CounselVO.class);
+		int result = sql.insert("and.insert_counsel", counsel);
 		return result;
 	}
 	
@@ -57,14 +88,14 @@ public class AndController {
 	
 	//상담 목록 조회
 	@RequestMapping(value="/list.co", produces = "text/html;charset=utf-8")
-	public String counsel_list(String vo) {	//loginInfo -> member_code, type 필요함
+	public String counsel_list(MemberVO vo) {	//loginInfo -> member_code, type 필요함
 		//학생 member_code	=> writer
 		//강사 member_code	=> receiver
 //		HashMap<String, Object> map = new HashMap<>();
 //		map.put("member_code", member_code);
 //		map.put("type", type);
-		MemberVO member = new Gson().fromJson(vo, new TypeToken<ArrayList<MemberVO>>(){}.getType());
-		List<CounselVO> list = sql.selectList("and.counsel_list", member);
+//		MemberVO member = new Gson().fromJson(vo, new TypeToken<ArrayList<MemberVO>>(){}.getType());
+		List<CounselVO> list = sql.selectList("and.counsel_list", vo);
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}
 	
